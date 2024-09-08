@@ -5,7 +5,7 @@ import './User.css';
 import {cpfMask} from '../../masks/cpf-mask.js'
 const CreateUser = () => {
     const navigate = useNavigate();
-    const createUserApi = "http://localhost:3000/user"
+    const createUserApi = "http://localhost:3000/show-user"
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
@@ -69,7 +69,16 @@ const CreateUser = () => {
 
             if (response.ok) {
                 console.log('Form submitted successfully!');
-                setUser({name: "",email: "",phone: ""})
+                setUser({        
+                    cpf_cnpj: "",
+                    nome_produtor: "",
+                    nome_fazenda: "",
+                    cidade: "",
+                    estado: "",
+                    area_total_hectares_fazenda: "",
+                    area_agricultavel_hectares: "",
+                    area_vegetacao_hectares: "",
+                    culturas_plantadas: ""})
                 navigate('/show-user');
             } else {
                 console.error('Form submission failed!');
