@@ -11,7 +11,7 @@ const EditUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const getUserApi = "http://localhost:5000/user";
+  const getUserApi = "http://localhost:5000/users";
   const [errorMessage, setErrorMessage] = React.useState("");
 
   useEffect(() => {
