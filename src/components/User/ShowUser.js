@@ -69,19 +69,19 @@ const ShowUser = () => {
           </thead>
           <tbody>
             {user?.map((item, i) => {
-             
+
               return (
                 <tr key={i + 1}>
                   <td>{item.id}</td>
                   <td>{item.cpf_cnpj}</td>
-              <td>{item.nome_produtor}</td>
-              <td>{item.nome_fazenda}</td>
-              <td>{item.cidade}</td>
-              <td>{item.estado}</td>
-              <td>{item.area_total_hectares_fazenda}</td>
-              <td>{item.area_agricultavel_hectares}</td>
-              <td>{item.area_vegetacao_hectares}</td>
-              <td>{item.culturas_plantadas}</td>
+                  <td>{item.nome_produtor}</td>
+                  <td>{item.nome_fazenda}</td>
+                  <td>{item.cidade}</td>
+                  <td>{item.estado}</td>
+                  <td>{item.area_total_hectares_fazenda}</td>
+                  <td>{item.area_agricultavel_hectares}</td>
+                  <td>{item.area_vegetacao_hectares}</td>
+                  <td>{item.culturas_plantadas}</td>
                   <td className="d-flex justify-content-between">
                     <Link to={`/edit-user/${item.id}`}>
                       <i className="fa fa-pencil" aria-hidden="true"></i>

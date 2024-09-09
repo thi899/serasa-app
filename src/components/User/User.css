@@ -25,8 +25,13 @@
   }
 
   .error-message {
+    display: flex;
     color: red;
-  }
+    align-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+}
 
 .user-form{
     max-width: 80vw;
@@ -82,4 +87,12 @@
     border: 1px solid red;
     background-color: #ffffff;
     
+}
+
+.fa fa-exclamation-circle {
+    border: none;
+    padding: 3px;
+    margin-right: 10px;
+    background-color: transparent;
+    color: red;
 }
