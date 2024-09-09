@@ -35,7 +35,7 @@ export default function Header() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="show-user">
+                <Link className="nav-link" to="show-charts">
                   Dashboard
                 </Link>
               </li>
