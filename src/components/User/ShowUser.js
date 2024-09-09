@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Loader from "../Common/Loader";
 
 const ShowUser = () => {
-  const showUserApi = "http://localhost:3000/user";
+  const showUserApi = "http://localhost:5000/users";
 
   const [user, setUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +14,7 @@ const ShowUser = () => {
     console.log("id : -", id);
     setIsLoading(true);
     try {
+      debugger
       const response = await fetch(showUserApi.concat("/") + id, {
         method: "DELETE",
       });
@@ -54,32 +55,33 @@ const ShowUser = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>cpf_cnpj</th>
-              <th>nome_produtor</th>
-              <th>nome_fazenda</th>
-              <th>cidade</th>
-              <th>estado</th>
-              <th>area_total_hectares_fazenda</th>
-              <th>area_agricultavel_hectares</th>
-              <th>area_vegetacao_hectares</th>
-              <th>culturas_plantadas</th>
-              <th>Actions</th>
+              <th>Cpf Cnpj</th>
+              <th>Nome Produtor</th>
+              <th>Nome Fazenda</th>
+              <th>Cidade</th>
+              <th>Estado</th>
+              <th>Área total em hectares da fazenda</th>
+              <th>Área agricultável em hectares</th>
+              <th>Área de vegetação em hectares</th>
+              <th>Culturas Plantadas</th>
+              <th>Açoes</th>
             </tr>
           </thead>
           <tbody>
             {user?.map((item, i) => {
+             
               return (
                 <tr key={i + 1}>
-                  <td>{i + 1}</td>
-                  <td>cpf_cnpj</td>
-              <td>nome_produtor</td>
-              <td>nome_fazenda</td>
-              <td>cidade</td>
-              <td>estado</td>
-              <td>area_total_hectares_fazenda</td>
-              <td>area_agricultavel_hectares</td>
-              <td>area_vegetacao_hectares</td>
-              <td>culturas_plantadas</td>
+                  <td>{item.id}</td>
+                  <td>{item.cpf_cnpj}</td>
+              <td>{item.nome_produtor}</td>
+              <td>{item.nome_fazenda}</td>
+              <td>{item.cidade}</td>
+              <td>{item.estado}</td>
+              <td>{item.area_total_hectares_fazenda}</td>
+              <td>{item.area_agricultavel_hectares}</td>
+              <td>{item.area_vegetacao_hectares}</td>
+              <td>{item.culturas_plantadas}</td>
                   <td>
                     <Link to={`/edit-user/${item.id}`}>
                       <i className="fa fa-pencil" aria-hidden="true"></i>

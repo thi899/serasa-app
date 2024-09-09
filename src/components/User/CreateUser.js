@@ -3,12 +3,15 @@ import {useNavigate } from "react-router-dom";
 import Loader from '../Common/Loader';
 import './User.css';
 import {cpfMask} from '../../masks/cpf-mask.js'
+import axios from "axios";
+
 const CreateUser = () => {
     const navigate = useNavigate();
-    const createUserApi = "http://localhost:3000/show-user"
+    const createUserApi = "http://localhost:5000/users"
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [user, setUser] = useState({
+        id: undefined,
         cpf_cnpj: "",
         nome_produtor: "",
         nome_fazenda: "",
@@ -59,30 +62,29 @@ const CreateUser = () => {
         console.log(user)
         try {
             setIsLoading(true);
-            const response = await fetch(createUserApi, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
+            axios.post(createUserApi, user)
+            .then((response) => {
+                if (response.status) {
+                    console.log('Form submitted successfully!');
+                    setUser({        
+                        id: undefined,
+                        cpf_cnpj: "",
+                        nome_produtor: "",
+                        nome_fazenda: "",
+                        cidade: "",
+                        estado: "",
+                        area_total_hectares_fazenda: "",
+                        area_agricultavel_hectares: "",
+                        area_vegetacao_hectares: "",
+                        culturas_plantadas: ""})
+                    navigate('/show-user');
+                } else {
+                    console.error('Form submission failed!');
+                }
+
             });
 
-            if (response.ok) {
-                console.log('Form submitted successfully!');
-                setUser({        
-                    cpf_cnpj: "",
-                    nome_produtor: "",
-                    nome_fazenda: "",
-                    cidade: "",
-                    estado: "",
-                    area_total_hectares_fazenda: "",
-                    area_agricultavel_hectares: "",
-                    area_vegetacao_hectares: "",
-                    culturas_plantadas: ""})
-                navigate('/show-user');
-            } else {
-                console.error('Form submission failed!');
-            }
+          
 
         } catch (error) {
             setError(error.message);
@@ -108,7 +110,7 @@ const CreateUser = () => {
                 </div>
                 <div className="mb-3 mt-3">
                     <label for="nome_produtor" className="form-label">Nome Produtor</label>
-                    <input type="nome_produtor" className="form-control" id="nome_produtor" name="user.nome_produtor" value={user.email} onChange={handleInput} />
+                    <input type="text" className="form-control" id="nome_produtor" name="nome_produtor" value={user.nome_produtor} onChange={handleInput} />
                 </div>
                 <div className="mb-3">
                     <label for="pwd" className="form-label">Nome Fazenda</label>
