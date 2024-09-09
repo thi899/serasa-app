@@ -64,7 +64,7 @@ const ShowUser = () => {
               <th>Área agricultável em hectares</th>
               <th>Área de vegetação em hectares</th>
               <th>Culturas Plantadas</th>
-              <th>Açoes</th>
+              <th>Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -82,14 +82,10 @@ const ShowUser = () => {
               <td>{item.area_agricultavel_hectares}</td>
               <td>{item.area_vegetacao_hectares}</td>
               <td>{item.culturas_plantadas}</td>
-                  <td>
+                  <td className="d-flex justify-content-between">
                     <Link to={`/edit-user/${item.id}`}>
                       <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
-                    <Link to={`/user/${item.id}`}>
-                      <i className="fa fa-eye" aria-hidden="true"></i>
-                    </Link>
-
                     <i
                       className="fa fa-trash-o"
                       aria-hidden="true"

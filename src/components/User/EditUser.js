@@ -22,7 +22,6 @@ const EditUser = () => {
     axios
       .get(getUserApi.concat("/") + id)
       .then((item) => {
-        debugger
         setUser(item.data);
       })
       .catch((err) => {
