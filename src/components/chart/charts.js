@@ -35,26 +35,31 @@ const ShowCharts = () => {
             });
     };
 
+debugger
+    const test = users?.reduce((acc, user) => acc + user.area_total_hectares_fazenda, 0)
+
+
     if (users?.length === 0) {
         return <h5 class="no-users">Sem Produtores cadastrados</h5>;
     }
-    
+
     else
         return (
             <div className="chart">
                 <div className="chart__total">
                     <Line
                         data={{
+                            labels: ["Total de fazenda", "Total de hectares por fazendas"],
                             datasets: [
                                 {
                                     label: "Total de fazendas",
-                                    data: users?.map((user) => user?.nome_fazenda.length),
+                                    data: { total:10 },
                                     backgroundColor: "#064FF0",
                                     borderColor: "#064FF0",
                                 },
                                 {
                                     label: "Total de hectares por fazendas",
-                                    data: users?.map((user) => user?.area_total_hectares_fazenda.length),
+                                    data: users?.reduce((acc, user) => acc + user.area_total_hectares_fazenda, 0),
                                     backgroundColor: "#FF3030",
                                     borderColor: "#FF3030",
                                 },
@@ -68,7 +73,9 @@ const ShowCharts = () => {
                             },
                             plugins: {
                                 title: {
-                                    text: "Total de fazendas e Total em hectares da fazenda",
+                                    display: true,
+                                    text: "Total de fazendas e total de hectares",
+                                    align: "center"
                                 },
                             },
                         }}
@@ -78,11 +85,15 @@ const ShowCharts = () => {
                 <div className="">
                     <Doughnut
                         data={{
-                            labels: users?.map((user) => user?.estado),
+                            labels: [...new Set(users?.map((user) => user?.estado))],
                             datasets: [
                                 {
-                                    label: "Quantidade de fazendas por estado",
-                                    data: users?.map((user) => user?.estado?.length),
+                                    label: "Estado",
+                                    data: Object.values(users?.reduce((acc, user) => {
+                                        acc[user.estado] = (acc[user.estado] || 0) + 1;
+
+                                        return acc;
+                                    }, {})),
                                     backgroundColor: [
                                         "rgba(43, 63, 229, 0.8)",
                                         "rgba(250, 192, 19, 0.8)",
@@ -99,10 +110,13 @@ const ShowCharts = () => {
                         options={{
                             plugins: {
                                 title: {
-                                    text: "Revenue Sources",
+                                    display: true,
+                                    text: "Quantidade de fazendas por estado",
+                                    align: "center"
                                 },
                             },
-                        }}
+                        }
+                        }
                     />
                 </div>
 
@@ -131,7 +145,9 @@ const ShowCharts = () => {
                         options={{
                             plugins: {
                                 title: {
-                                    text: "Revenue Sources",
+                                    display: true,
+                                    text: "Quantidade de culturas",
+                                    align: "center"
                                 },
                             },
                         }}

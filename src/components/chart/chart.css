@@ -4,5 +4,12 @@
     box-sizing: border-box;
     height: 350px;
     width: 1116px;
+}
 
+canvas {
+    display: block;
+    box-sizing: border-box;
+    height: 450px;
+    width: 1116px;
+    border: solid 1px;
 }
