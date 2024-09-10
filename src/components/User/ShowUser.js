@@ -6,7 +6,7 @@ import Loader from "../Common/Loader";
 const ShowUser = () => {
   const showUserApi = "http://localhost:5000/users";
 
-  const [user, setUser] = useState([]);
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,14 +14,13 @@ const ShowUser = () => {
     console.log("id : -", id);
     setIsLoading(true);
     try {
-      debugger
       const response = await fetch(showUserApi.concat("/") + id, {
         method: "DELETE",
       });
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      setUser(user.filter((item) => item.id !== id));
+      setUsers(users.filter((item) => item.id !== id));
     } catch (error) {
       setError(error.message);
     } finally {
@@ -37,15 +36,15 @@ const ShowUser = () => {
     axios
       .get(showUserApi)
       .then((res) => {
-        setUser(res.data);
+        setUsers(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  if (user.length < 0) {
-    return <h1>no user found</h1>;
+  if (users?.length === 0) {
+    return <h5 class="no-users">Sem Produtores cadastrados</h5>;
   } else {
     return (
       <div className="mt-5">
@@ -68,28 +67,28 @@ const ShowUser = () => {
             </tr>
           </thead>
           <tbody>
-            {user?.map((item, i) => {
+            {users?.map((item, i) => {
 
               return (
                 <tr key={i + 1}>
-                  <td>{item.id}</td>
-                  <td>{item.cpf_cnpj}</td>
-                  <td>{item.nome_produtor}</td>
-                  <td>{item.nome_fazenda}</td>
-                  <td>{item.cidade}</td>
-                  <td>{item.estado}</td>
-                  <td>{item.area_total_hectares_fazenda}</td>
-                  <td>{item.area_agricultavel_hectares}</td>
-                  <td>{item.area_vegetacao_hectares}</td>
-                  <td>{item.culturas_plantadas}</td>
+                  <td>{item?.id}</td>
+                  <td>{item?.cpf_cnpj}</td>
+                  <td>{item?.nome_produtor}</td>
+                  <td>{item?.nome_fazenda}</td>
+                  <td>{item?.cidade}</td>
+                  <td>{item?.estado}</td>
+                  <td>{item?.area_total_hectares_fazenda}</td>
+                  <td>{item?.area_agricultavel_hectares}</td>
+                  <td>{item?.area_vegetacao_hectares}</td>
+                  <td>{item?.culturas_plantadas}</td>
                   <td className="d-flex justify-content-between">
-                    <Link to={`/edit-user/${item.id}`}>
+                    <Link to={`/edit-user/${item?.id}`}>
                       <i className="fa fa-pencil" aria-hidden="true"></i>
                     </Link>
                     <i
                       className="fa fa-trash-o"
                       aria-hidden="true"
-                      onClick={() => handleDelete(item.id)}
+                      onClick={() => handleDelete(item?.id)}
                     ></i>
                   </td>
                 </tr>

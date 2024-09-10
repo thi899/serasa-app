@@ -35,136 +35,140 @@ const ShowCharts = () => {
             });
     };
 
-    return (
-        <div className="chart">
-            <div className="chart__total">
-                <Line
-                    data={{
-                        labels: users.map((data) => data),
-                        datasets: [
-                            {
-                                label: "Total de fazendas",
-                                data: users.map((user) => user.nome_fazenda.length),
-                                backgroundColor: "#064FF0",
-                                borderColor: "#064FF0",
+    if (users?.length === 0) {
+        return <h5 class="no-users">Sem Produtores cadastrados</h5>;
+    }
+    
+    else
+        return (
+            <div className="chart">
+                <div className="chart__total">
+                    <Line
+                        data={{
+                            datasets: [
+                                {
+                                    label: "Total de fazendas",
+                                    data: users?.map((user) => user?.nome_fazenda.length),
+                                    backgroundColor: "#064FF0",
+                                    borderColor: "#064FF0",
+                                },
+                                {
+                                    label: "Total de hectares por fazendas",
+                                    data: users?.map((user) => user?.area_total_hectares_fazenda.length),
+                                    backgroundColor: "#FF3030",
+                                    borderColor: "#FF3030",
+                                },
+                            ],
+                        }}
+                        options={{
+                            elements: {
+                                line: {
+                                    tension: 0.5,
+                                },
                             },
-                            {
-                                label: "Total de hectares por fazendas",
-                                data: users.map((user) => user.area_total_hectares_fazenda.length),
-                                backgroundColor: "#FF3030",
-                                borderColor: "#FF3030",
+                            plugins: {
+                                title: {
+                                    text: "Total de fazendas e Total em hectares da fazenda",
+                                },
                             },
-                        ],
-                    }}
-                    options={{
-                        elements: {
-                            line: {
-                                tension: 0.5,
-                            },
-                        },
-                        plugins: {
-                            title: {
-                                text: "Total de fazendas e Total em hectares da fazenda",
-                            },
-                        },
-                    }}
-                />
-            </div>
+                        }}
+                    />
+                </div>
 
-            <div className="">
-                <Doughnut
-                    data={{
-                        labels: users.map((user) => user.estado),
-                        datasets: [
-                            {
-                                label: "Quantidade de fazendas por estado",
-                                data: users.map((user) => user.estado.length),
-                                backgroundColor: [
-                                    "rgba(43, 63, 229, 0.8)",
-                                    "rgba(250, 192, 19, 0.8)",
-                                    "rgba(253, 135, 135, 0.8)",
-                                ],
-                                borderColor: [
-                                    "rgba(43, 63, 229, 0.8)",
-                                    "rgba(250, 192, 19, 0.8)",
-                                    "rgba(253, 135, 135, 0.8)",
-                                ],
+                <div className="">
+                    <Doughnut
+                        data={{
+                            labels: users?.map((user) => user?.estado),
+                            datasets: [
+                                {
+                                    label: "Quantidade de fazendas por estado",
+                                    data: users?.map((user) => user?.estado?.length),
+                                    backgroundColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                    borderColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                },
+                            ],
+                        }}
+                        options={{
+                            plugins: {
+                                title: {
+                                    text: "Revenue Sources",
+                                },
                             },
-                        ],
-                    }}
-                    options={{
-                        plugins: {
-                            title: {
-                                text: "Revenue Sources",
-                            },
-                        },
-                    }}
-                />
-            </div>
+                        }}
+                    />
+                </div>
 
 
-            <div className="">
-                <Doughnut
-                    data={{
-                        labels: users.map((user) => user.culturas_plantadas),
-                        datasets: [
-                            {
-                                label: "Quantidade de fazendas por cultura",
-                                data: users.map((user) => user.culturas_plantadas.length),
-                                backgroundColor: [
-                                    "rgba(43, 63, 229, 0.8)",
-                                    "rgba(250, 192, 19, 0.8)",
-                                    "rgba(253, 135, 135, 0.8)",
-                                ],
-                                borderColor: [
-                                    "rgba(43, 63, 229, 0.8)",
-                                    "rgba(250, 192, 19, 0.8)",
-                                    "rgba(253, 135, 135, 0.8)",
-                                ],
+                <div className="">
+                    <Doughnut
+                        data={{
+                            labels: users?.map((user) => user?.culturas_plantadas),
+                            datasets: [
+                                {
+                                    label: "Quantidade de fazendas por cultura",
+                                    data: users?.map((user) => user?.culturas_plantadas.length),
+                                    backgroundColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                    borderColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                },
+                            ],
+                        }}
+                        options={{
+                            plugins: {
+                                title: {
+                                    text: "Revenue Sources",
+                                },
                             },
-                        ],
-                    }}
-                    options={{
-                        plugins: {
-                            title: {
-                                text: "Revenue Sources",
+                        }}
+                    />
+                </div>
+                <div className="">
+                    <Doughnut
+                        data={{
+                            labels: users.map((user) => user?.area_agricultavel_hectares),
+                            datasets: [
+                                {
+                                    label: "Quantidade de fazendas por cultura",
+                                    data: users?.map((user) => user?.area_agricultavel_hectares.length),
+                                    backgroundColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                    borderColor: [
+                                        "rgba(43, 63, 229, 0.8)",
+                                        "rgba(250, 192, 19, 0.8)",
+                                        "rgba(253, 135, 135, 0.8)",
+                                    ],
+                                },
+                            ],
+                        }}
+                        options={{
+                            plugins: {
+                                title: {
+                                    text: "Revenue Sources",
+                                },
                             },
-                        },
-                    }}
-                />
+                        }}
+                    />
+                </div>
             </div>
-            <div className="">
-                <Doughnut
-                    data={{
-                        labels: users.map((user) => user.area_agricultavel_hectares),
-                        datasets: [
-                            {
-                                label: "Quantidade de fazendas por cultura",
-                                data: users.map((user) => user.area_agricultavel_hectares.length),
-                                backgroundColor: [
-                                    "rgba(43, 63, 229, 0.8)",
-                                    "rgba(250, 192, 19, 0.8)",
-                                    "rgba(253, 135, 135, 0.8)",
-                                ],
-                                borderColor: [
-                                    "rgba(43, 63, 229, 0.8)",
-                                    "rgba(250, 192, 19, 0.8)",
-                                    "rgba(253, 135, 135, 0.8)",
-                                ],
-                            },
-                        ],
-                    }}
-                    options={{
-                        plugins: {
-                            title: {
-                                text: "Revenue Sources",
-                            },
-                        },
-                    }}
-                />
-            </div>
-        </div>
-    );
+        );
 };
 
 

@@ -96,3 +96,10 @@
     background-color: transparent;
     color: red;
 }
+
+.no-users {
+    display: flex;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+}
