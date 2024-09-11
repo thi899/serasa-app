@@ -29,15 +29,12 @@ const ShowCharts = () => {
             .get(getUsersApi)
             .then((res) => {
                 setUsers(res.data);
+                console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-
-debugger
-    const test = users?.reduce((acc, user) => acc + user.area_total_hectares_fazenda, 0)
-
 
     if (users?.length === 0) {
         return <h5 class="no-users">Sem Produtores cadastrados</h5>;
@@ -49,19 +46,24 @@ debugger
                 <div className="chart__total">
                     <Line
                         data={{
-                            labels: ["Total de fazenda", "Total de hectares por fazendas"],
+                            labels: ["Total de fazendas"],
                             datasets: [
                                 {
                                     label: "Total de fazendas",
-                                    data: { total:10 },
+                                    data: { "fazendas": users?.length },
                                     backgroundColor: "#064FF0",
                                     borderColor: "#064FF0",
                                 },
                                 {
-                                    label: "Total de hectares por fazendas",
-                                    data: users?.reduce((acc, user) => acc + user.area_total_hectares_fazenda, 0),
-                                    backgroundColor: "#FF3030",
-                                    borderColor: "#FF3030",
+                                    label: "Total de fazendas em hectares",
+                                    data: {
+                                        "Total de hectares": users?.reduce((acc, farm) => {
+
+                                            return acc + Number(farm.area_total_hectares_fazenda);
+                                        }, 0)
+                                    },
+                                    backgroundColor: "#2F4F4F",
+                                    borderColor: "#2F4F4F",
                                 },
                             ],
                         }}
@@ -74,7 +76,7 @@ debugger
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: "Total de fazendas e total de hectares",
+                                    text: `Total de fazendas: ${users?.length}`,
                                     align: "center"
                                 },
                             },
@@ -156,11 +158,64 @@ debugger
                 <div className="">
                     <Doughnut
                         data={{
-                            labels: users.map((user) => user?.area_agricultavel_hectares),
+                            labels: [
+                                {
+                                    "hect": "1000",
+                                    "vegt": "100"
+                                },
+                                {
+                                    "hect": "2000",
+                                    "vegt": "1000"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                },
+                                {
+                                    "hect": "11",
+                                    "vegt": "11"
+                                }
+                            ],
                             datasets: [
                                 {
-                                    label: "Quantidade de fazendas por cultura",
-                                    data: users?.map((user) => user?.area_agricultavel_hectares.length),
+                                    label: "Total (Área agricultável e vegetação)",
+                                    data: users?.map((user) => {
+                                        return {
+                                            total_fazendas: user.length
+                                        }
+                                    }),
                                     backgroundColor: [
                                         "rgba(43, 63, 229, 0.8)",
                                         "rgba(250, 192, 19, 0.8)",
@@ -177,7 +232,8 @@ debugger
                         options={{
                             plugins: {
                                 title: {
-                                    text: "Revenue Sources",
+                                    text: "Quantidade por uso de solo(Área agricultável e vegetação)",
+                                    align: "center"
                                 },
                             },
                         }}
