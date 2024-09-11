@@ -1,6 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
+import { Doughnut, Line } from "react-chartjs-2";
+import { contarChavesValores } from "../utils/contar_chaves_valores.js"
 
 import "./chart.css";
 
@@ -35,6 +36,9 @@ const ShowCharts = () => {
                 console.log(err);
             });
     };
+
+
+
 
     if (users?.length === 0) {
         return <h5 class="no-users">Sem Produtores cadastrados</h5>;
@@ -76,7 +80,7 @@ const ShowCharts = () => {
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: `Total de fazendas: ${users?.length}`,
+                                    text: "Total de fazendas",
                                     align: "center"
                                 },
                             },
@@ -126,11 +130,11 @@ const ShowCharts = () => {
                 <div className="">
                     <Doughnut
                         data={{
-                            labels: users?.map((user) => user?.culturas_plantadas),
+                            labels: [...new Set(users?.map(item => item.culturas_plantadas).join(',').split(','))],
                             datasets: [
                                 {
                                     label: "Quantidade de fazendas por cultura",
-                                    data: users?.map((user) => user?.culturas_plantadas.length),
+                                    data: contarChavesValores(users, 'culturas_plantadas'),
                                     backgroundColor: [
                                         "rgba(43, 63, 229, 0.8)",
                                         "rgba(250, 192, 19, 0.8)",
