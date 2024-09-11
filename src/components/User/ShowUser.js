@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../Common/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { changeUser } from "../../redux/userSlice";
 
 const ShowUser = () => {
+
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state?.user);
   const showUserApi = "http://localhost:5000/users";
 
-  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const handleDelete = async (id) => {
     setIsLoading(true);
+
     try {
       const response = await fetch(showUserApi.concat("/") + id, {
         method: "DELETE",
@@ -19,30 +23,36 @@ const ShowUser = () => {
       if (!response.ok) {
         throw new Error("Failed to delete item");
       }
-      setUsers(users.filter((item) => item.id !== id));
+
+      const users = state?.user?.filter((item) => item.id !== id);
+      dispatch(changeUser(users));
+
     } catch (error) {
-      setError(error.message);
+      setError(state.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  // useEffect(() => {
+  //   getUsers();
+
+  // }, []);
 
   const getUsers = () => {
-    axios
-      .get(showUserApi)
-      .then((res) => {
-        setUsers(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // axios
+    //   .get(showUserApi)
+    //   .then((res) => {
+    //     setUsers(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
   };
 
-  if (users?.length === 0) {
+
+  if (!state?.user[0]?.id) {
     return <h5 class="no-users">Sem Produtores cadastrados</h5>;
   } else {
     return (
@@ -66,7 +76,8 @@ const ShowUser = () => {
             </tr>
           </thead>
           <tbody>
-            {users?.map((item, i) => {
+            {state?.user?.map((item, i) => {
+              console.log('item', item);
 
               return (
                 <tr key={i + 1}>

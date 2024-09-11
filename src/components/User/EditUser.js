@@ -1,39 +1,28 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../Common/Loader";
 import "./User.css";
 import { cpfMask } from '../../masks/cpf-mask.js'
+import { changeUser } from "../../redux/userSlice.js";
 
 const EditUser = () => {
-  const [user, setUser] = useState([]);
+  //const [user, setUser] = useState("");
+  const dispatch = useDispatch();
+  const state = useSelector((state) => state?.user);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const getUserApi = "http://localhost:5000/users";
 
+  let stateUser = state?.user;
 
   const [errorMessageCpfCnpj, setErrorMessageCpfCnpj] = useState("");
 
   const [errorMessageTotalAreaFarm, setErrorMessageTotalAreaFarm] = useState("");
 
   const [isDisabled, setDisabled] = useState(false);
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  const getUser = () => {
-    axios
-      .get(getUserApi.concat("/") + id)
-      .then((item) => {
-        setUser(item.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const handleSelectInput = (event) => {
     event.preventDefault();
@@ -52,7 +41,7 @@ const EditUser = () => {
       }
     }
 
-    setUser({ ...user, [name]: value });
+    stateUser = { ...state?.user, [name]: value };
   }
 
   const handleTotalFarmAreaInput = (event) => {
@@ -60,7 +49,7 @@ const EditUser = () => {
 
     const { name, value } = event.target;
 
-    if (+user.area_vegetacao_hectares + +user.area_agricultavel_hectares > value) {
+    if (+state?.user?.area_vegetacao_hectares + +state?.user?.area_agricultavel_hectares > value) {
       setErrorMessageTotalAreaFarm("A soma de área agrícultável e vegetação, não pode ser maior que a área total da fazenda");
       setDisabled(true);
     }
@@ -70,14 +59,14 @@ const EditUser = () => {
       setDisabled(false);
     }
 
-    setUser({ ...user, [name]: value });
+    stateUser = { ...state?.user, [name]: value };
   }
 
   const handleInput = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
 
-    setUser({ ...user, [name]: value });
+    stateUser = { ...state?.user, [name]: value };
   };
 
   const handleCpfInput = (event) => {
@@ -99,7 +88,7 @@ const EditUser = () => {
     }
 
 
-    setUser({ ...user, [name]: valueWithMaskCpf });
+    stateUser = { ...state?.user, [name]: valueWithMaskCpf };
   }
 
   const handleSubmit = (e) => {
@@ -110,10 +99,11 @@ const EditUser = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(user),
+      body: JSON.stringify(stateUser),
     })
       .then((response) => {
         if (!response.ok) {
+          dispatch(changeUser(stateUser));
           throw new Error("Network response was not ok");
         }
         return response.json();
@@ -141,24 +131,24 @@ const EditUser = () => {
 
           <div className="mb-3">
             <label for="name" className="form-label">CPF/CNPJ</label>
-            <input required maxLength={18} type="text" className="form-control" id="cpf_cnpj" name="cpf_cnpj" value={user.cpf_cnpj} onChange={handleCpfInput} />
+            <input required maxLength={18} type="text" className="form-control" id="cpf_cnpj" name="cpf_cnpj" value={state?.user[0]?.cpf_cnpj} onChange={handleCpfInput} />
             {errorMessageCpfCnpj && <span className="error-message"> <i class="mx-1 fa fa-exclamation-circle text-danger bg-light border-0" aria-hidden="true"></i> {errorMessageCpfCnpj} </span>}
           </div>
           <div className="mb-3 mt-3">
             <label for="nome_produtor" className="form-label">Nome Produtor</label>
-            <input required type="text" className="form-control" id="nome_produtor" name="nome_produtor" value={user.nome_produtor} onChange={handleInput} />
+            <input required type="text" className="form-control" id="nome_produtor" name="nome_produtor" value={state?.user[0]?.nome_produtor} onChange={handleInput} />
           </div>
           <div className="mb-3">
             <label for="pwd" className="form-label">Nome Fazenda</label>
-            <input required type="text" className="form-control" id="nome_fazenda" name="nome_fazenda" value={user.nome_fazenda} onChange={handleInput} />
+            <input required type="text" className="form-control" id="nome_fazenda" name="nome_fazenda" value={state?.user[0]?.nome_fazenda} onChange={handleInput} />
           </div>
           <div className="mb-3">
             <label for="pwd" className="form-label">Cidade</label>
-            <input required type="text" className="form-control" id="cidade" name="cidade" value={user.cidade} onChange={handleInput} />
+            <input required type="text" className="form-control" id="cidade" name="cidade" value={state?.user[0]?.cidade} onChange={handleInput} />
           </div>
           <div className="mb-3">
             <label for="pwd" className="form-label">Estado</label>
-            <input required type="text" className="form-control" id="estado" name="estado" value={user.estado} onChange={handleInput} />
+            <input required type="text" className="form-control" id="estado" name="estado" value={state?.user[0]?.estado} onChange={handleInput} />
           </div>
 
         </div>
@@ -166,15 +156,15 @@ const EditUser = () => {
         <div className='column'>
           <div className="mb-3">
             <label for="pwd" className="form-label">Área agricultável em hectares</label>
-            <input required type="number" className="form-control" id="area_agricultavel_hectares" name="area_agricultavel_hectares" value={user.area_agricultavel_hectares} onChange={handleInput} />
+            <input required type="number" className="form-control" id="area_agricultavel_hectares" name="area_agricultavel_hectares" value={state?.user[0]?.area_agricultavel_hectares} onChange={handleInput} />
           </div>
           <div className="mb-3">
             <label for="pwd" className="form-label">Área de vegetação em hectares</label>
-            <input required type="number" className="form-control" id="area_vegetacao_hectares" name="area_vegetacao_hectares" value={user.area_vegetacao_hectares} onChange={handleInput} />
+            <input required type="number" className="form-control" id="area_vegetacao_hectares" name="area_vegetacao_hectares" value={state?.user[0]?.area_vegetacao_hectares} onChange={handleInput} />
           </div>
           <div className="mb-3">
             <label for="pwd" className="form-label">Área total em hectares da fazenda</label>
-            <input required type="number" className="form-control" id="area_total_hectares_fazenda" name="area_total_hectares_fazenda" value={user.area_total_hectares_fazenda} onChange={handleTotalFarmAreaInput} />
+            <input required type="number" className="form-control" id="area_total_hectares_fazenda" name="area_total_hectares_fazenda" value={state?.user[0]?.area_total_hectares_fazenda} onChange={handleTotalFarmAreaInput} />
             {errorMessageTotalAreaFarm && <span className="error-message"> <i class="mx-1 fa fa-exclamation-circle text-danger bg-light border-0" aria-hidden="true"></i> {errorMessageTotalAreaFarm} </span>}
           </div>
 

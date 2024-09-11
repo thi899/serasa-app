@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Doughnut, Line } from "react-chartjs-2";
-import { countKeysAndValues, sumAreas } from "../utils/utils.js"
+import { countKeysAndValues, sumAreas } from "../Utils/Utils.js";
 
 import "./chart.css";
 

@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 import Loader from '../Common/Loader';
 import './User.css';
 import { cpfMask } from '../../masks/cpf-mask.js'
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { createUser } from '../../redux/userSlice.js';
+
 
 const CreateUser = () => {
     const navigate = useNavigate();
@@ -22,6 +25,8 @@ const CreateUser = () => {
         area_vegetacao_hectares: "",
         culturas_plantadas: ""
     });
+
+    const dispatch = useDispatch();
 
     const [errorMessageCpfCnpj, setErrorMessageCpfCnpj] = useState("");
 
@@ -60,7 +65,7 @@ const CreateUser = () => {
         event.preventDefault();
 
         const { name, value } = event.target;
-        
+
         if (+user.area_vegetacao_hectares + +user.area_agricultavel_hectares > value) {
             setErrorMessageTotalAreaFarm("A soma de área agrícultável e vegetação, não pode ser maior que a área total da fazenda");
             setDisabled(true);
@@ -104,7 +109,8 @@ const CreateUser = () => {
             setIsLoading(true);
             axios.post(createUserApi, user)
                 .then((response) => {
-                    if (response.status) {
+
+                    if (response.status === 200) {
                         console.log('Form submitted successfully!');
                         setUser({
                             id: undefined,
@@ -117,7 +123,8 @@ const CreateUser = () => {
                             area_agricultavel_hectares: "",
                             area_vegetacao_hectares: "",
                             culturas_plantadas: ""
-                        })
+                        });
+                        dispatch(createUser(response.data));
                         navigate('/show-user');
                     } else {
                         console.error('Form submission failed!');
@@ -147,7 +154,7 @@ const CreateUser = () => {
                     <div className="mb-3">
                         <label for="name" className="form-label">CPF/CNPJ</label>
                         <input required maxLength={18} type="text" className="form-control" id="cpf_cnpj" name="cpf_cnpj" value={user.cpf_cnpj} onChange={handleCpfInput} />
-                        {errorMessageCpfCnpj &&  <span className="error-message"> <i class="mx-1 fa fa-exclamation-circle text-danger bg-light border-0" aria-hidden="true"></i> {errorMessageCpfCnpj} </span>}
+                        {errorMessageCpfCnpj && <span className="error-message"> <i class="mx-1 fa fa-exclamation-circle text-danger bg-light border-0" aria-hidden="true"></i> {errorMessageCpfCnpj} </span>}
                     </div>
                     <div className="mb-3 mt-3">
                         <label for="nome_produtor" className="form-label">Nome Produtor</label>
@@ -180,7 +187,7 @@ const CreateUser = () => {
                     <div className="mb-3">
                         <label for="pwd" className="form-label">Área total em hectares da fazenda</label>
                         <input required type="number" className="form-control" id="area_total_hectares_fazenda" name="area_total_hectares_fazenda" value={user.area_total_hectares_fazenda} onChange={handleTotalFarmAreaInput} />
-                        {errorMessageTotalAreaFarm &&  <span className="error-message"> <i class="mx-1 fa fa-exclamation-circle text-danger bg-light border-0" aria-hidden="true"></i> {errorMessageTotalAreaFarm} </span>}
+                        {errorMessageTotalAreaFarm && <span className="error-message"> <i class="mx-1 fa fa-exclamation-circle text-danger bg-light border-0" aria-hidden="true"></i> {errorMessageTotalAreaFarm} </span>}
                     </div>
 
                     <div className="d-flex justify-content-evenly align-items-center mb-3">
@@ -205,7 +212,6 @@ const CreateUser = () => {
 
                 </div>
             </form>
-
         </div>
     )
 }
