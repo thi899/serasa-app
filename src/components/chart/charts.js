@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Doughnut, Line } from "react-chartjs-2";
-import { contarChavesValores } from "../utils/contar_chaves_valores.js"
+import { contarChavesValores, somarAreas } from "../utils/utils.js"
 
 import "./chart.css";
 
@@ -162,64 +162,11 @@ const ShowCharts = () => {
                 <div className="">
                     <Doughnut
                         data={{
-                            labels: [
-                                {
-                                    "hect": "1000",
-                                    "vegt": "100"
-                                },
-                                {
-                                    "hect": "2000",
-                                    "vegt": "1000"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                },
-                                {
-                                    "hect": "11",
-                                    "vegt": "11"
-                                }
-                            ],
+                            labels: ['Área agricultável', 'Vegetação'],
                             datasets: [
                                 {
                                     label: "Total (Área agricultável e vegetação)",
-                                    data: users?.map((user) => {
-                                        return {
-                                            total_fazendas: user.length
-                                        }
-                                    }),
+                                    data: somarAreas(users),
                                     backgroundColor: [
                                         "rgba(43, 63, 229, 0.8)",
                                         "rgba(250, 192, 19, 0.8)",
