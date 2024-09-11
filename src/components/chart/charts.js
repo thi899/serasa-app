@@ -1,7 +1,7 @@
 import React from "react";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Doughnut, Line } from "react-chartjs-2";
-import { contarChavesValores, somarAreas } from "../utils/utils.js"
+import { countKeysAndValues, sumAreas } from "../utils/utils.js"
 
 import "./chart.css";
 
@@ -134,7 +134,7 @@ const ShowCharts = () => {
                             datasets: [
                                 {
                                     label: "Quantidade de fazendas por cultura",
-                                    data: contarChavesValores(users, 'culturas_plantadas'),
+                                    data: countKeysAndValues(users, 'culturas_plantadas'),
                                     backgroundColor: [
                                         "rgba(43, 63, 229, 0.8)",
                                         "rgba(250, 192, 19, 0.8)",
@@ -166,7 +166,7 @@ const ShowCharts = () => {
                             datasets: [
                                 {
                                     label: "Total (Área agricultável e vegetação)",
-                                    data: somarAreas(users),
+                                    data: sumAreas(users),
                                     backgroundColor: [
                                         "rgba(43, 63, 229, 0.8)",
                                         "rgba(250, 192, 19, 0.8)",

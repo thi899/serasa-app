@@ -1,60 +1,56 @@
 
 
-let culturaContagem = {};
+let cultureCount = {};
 
-let numeros = 0;
+let numbers = 0;
 
-function contarChavesValores(lista, propriedade) {
-    lista?.forEach(item => {
+function countKeysAndValues(list, property) {
+    list?.forEach(item => {
 
-        const culturas = item?.[propriedade]?.split(',');
+        const cultures = item?.[property]?.split(',');
 
-        culturas.forEach(cultura => {
+        cultures.forEach(culture => {
 
-            cultura = cultura.trim();
+            culture = culture.trim();
 
-            if (culturaContagem[cultura]) {
-                culturaContagem[cultura]++;
+            if (cultureCount[culture]) {
+                cultureCount[culture]++;
             } else {
-                culturaContagem[cultura] = 1;
+                cultureCount[culture] = 1;
             }
         });
     });
 
-    return convertendoParaArrayDeNumeros(culturaContagem);
+    return convertToArrayNumbers(cultureCount);
 
 }
 
-function somarAreas(dados) {
-    // Inicializamos as variáveis para somar as áreas
-    let totalAreaAgricultavel = 0;
-    let totalAreaVegetacao = 0;
+function sumAreas(data) {
+    let totalAreaArable = 0;
+    let totalAreaVegetation = 0;
 
-    // Percorremos cada fazenda no array
-    for (const fazenda of dados) {
-        // Convertendo os valores de string para número antes de somar
-        totalAreaAgricultavel += Number(fazenda.area_agricultavel_hectares);
-        totalAreaVegetacao += Number(fazenda.area_vegetacao_hectares);
+    for (const farm of data) {
+        totalAreaArable += Number(farm.area_agricultavel_hectares);
+        totalAreaVegetation += Number(farm.area_vegetacao_hectares);
     }
 
-    // Retornamos um objeto com os totais
     const totais = {
-        totalAreaAgricultavel,
-        totalAreaVegetacao
+        totalAreaArable,
+        totalAreaVegetation
     };
 
-    return convertendoParaArrayDeNumeros(totais);
+    return convertToArrayNumbers(totais);
 }
 
-function convertendoParaArrayDeNumeros(valor) {
+function convertToArrayNumbers(valor) {
     const produtosString = JSON.stringify(valor);
 
     const numerosEncontrados = produtosString.match(/\d+/g);
 
-    numeros = numerosEncontrados.map(Number);
+    numbers = numerosEncontrados.map(Number);
 
-    return numeros;
+    return numbers;
 }
 
-export { contarChavesValores };
-export { somarAreas };
+export { countKeysAndValues };
+export { sumAreas };
