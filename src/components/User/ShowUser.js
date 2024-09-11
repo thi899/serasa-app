@@ -11,7 +11,6 @@ const ShowUser = () => {
   const [error, setError] = useState(null);
 
   const handleDelete = async (id) => {
-    console.log("id : -", id);
     setIsLoading(true);
     try {
       const response = await fetch(showUserApi.concat("/") + id, {

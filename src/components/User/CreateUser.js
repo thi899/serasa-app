@@ -50,7 +50,6 @@ const CreateUser = () => {
                 listSelectOptions.push(options[i].value);
 
                 value = listSelectOptions.toString().replace(",", "");
-                console.log(value)
             }
         }
 
@@ -80,13 +79,10 @@ const CreateUser = () => {
         const { name, value } = event.target;
 
         const valueWithMaskCpf = cpfMask(value);
-        console.log(name);
-        console.log(value);
+
         var numberPattern = /\d+/g;
 
         const onlyNumbersValue = value?.match(numberPattern)?.join('');
-
-        console.log("onlyNumbersValue", onlyNumbersValue)
 
         if (onlyNumbersValue?.length !== 11 || onlyNumbersValue?.length !== 14) {
             setErrorMessageCpfCnpj("Cpf ou Cnpj Inválido");
@@ -104,7 +100,6 @@ const CreateUser = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(user)
         try {
             setIsLoading(true);
             axios.post(createUserApi, user)

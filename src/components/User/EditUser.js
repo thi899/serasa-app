@@ -49,7 +49,6 @@ const EditUser = () => {
         listSelectOptions.push(options[i].value);
 
         value = listSelectOptions.toString().replace(",", "");
-        console.log(value)
       }
     }
 
@@ -77,7 +76,7 @@ const EditUser = () => {
   const handleInput = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    console.log(name, value);
+
     setUser({ ...user, [name]: value });
   };
 
@@ -86,13 +85,10 @@ const EditUser = () => {
     const { name, value } = event.target;
 
     const valueWithMaskCpf = cpfMask(value);
-    console.log(name);
-    console.log(value);
+
     var numberPattern = /\d+/g;
 
     const onlyNumbersValue = value?.match(numberPattern)?.join('');
-
-    console.log("onlyNumbersValue", onlyNumbersValue)
 
     if (onlyNumbersValue?.length !== 11 || onlyNumbersValue?.length !== 14) {
       setErrorMessageCpfCnpj("Cpf ou Cnpj Inválido")

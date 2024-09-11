@@ -30,7 +30,6 @@ const ShowCharts = () => {
             .get(getUsersApi)
             .then((res) => {
                 setUsers(res.data);
-                console.log(res.data)
             })
             .catch((err) => {
                 console.log(err);
