@@ -1,16 +1,34 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../Common/Loader";
+import "./User.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeUser } from "../../redux/userSlice";
+import { changeUser } from "../../redux/userSlice.js";
 
 const ShowUser = () => {
+  const getUsersApi = "http://localhost:5000/users";
 
   const dispatch = useDispatch();
-  const state = useSelector((state) => state?.user);
-  dispatch
-  const showUserApi = "http://localhost:5000/users";
 
+  useEffect(() => {
+    getUsers();
+    
+  }, []);
+
+  const getUsers = () => {
+    axios
+      .get(getUsersApi)
+      .then((res) => {
+        debugger
+        dispatch(changeUser(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  const state = useSelector((state) => state?.user);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,7 +36,7 @@ const ShowUser = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(showUserApi.concat("/") + id, {
+      const response = await fetch(getUsersApi.concat("/") + id, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -60,8 +78,6 @@ const ShowUser = () => {
           </thead>
           <tbody>
             {state?.user?.map((item, i) => {
-              console.log('item', item);
-
               return (
                 <tr key={i + 1}>
                   <td>{item?.id}</td>

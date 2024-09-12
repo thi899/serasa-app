@@ -1,10 +1,7 @@
 
-
-let cultureCount = {};
-
 let numbers = 0;
 
-function countKeysAndValues(list, property) {
+function countKeysAndValues(list, property, object) {
     list?.forEach(item => {
 
         const cultures = item?.[property]?.split(',');
@@ -13,15 +10,15 @@ function countKeysAndValues(list, property) {
 
             culture = culture.trim();
 
-            if (cultureCount[culture]) {
-                cultureCount[culture]++;
+            if (object[culture]) {
+                object[culture]++;
             } else {
-                cultureCount[culture] = 1;
+                object[culture] = 1;
             }
         });
     });
 
-    return convertToArrayNumbers(cultureCount);
+    return convertToArrayNumbers(object);
 
 }
 
@@ -51,6 +48,7 @@ function convertToArrayNumbers(valor) {
 
     return numbers;
 }
+
 
 export { countKeysAndValues };
 export { sumAreas };
