@@ -34,24 +34,6 @@ const ShowUser = () => {
     }
   };
 
-  // useEffect(() => {
-  //   getUsers();
-
-  // }, []);
-
-  const getUsers = () => {
-    // axios
-    //   .get(showUserApi)
-    //   .then((res) => {
-    //     setUsers(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
-  };
-
-
   if (!state?.user[0]?.id) {
     return <h5 class="no-users">Sem Produtores cadastrados</h5>;
   } else {
