@@ -8,6 +8,7 @@ const ShowUser = () => {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state?.user);
+  dispatch
   const showUserApi = "http://localhost:5000/users";
 
   const [isLoading, setIsLoading] = useState(false);
