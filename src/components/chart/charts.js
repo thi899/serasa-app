@@ -68,7 +68,7 @@ const ShowCharts = () => {
                                     data: {
                                         "Total de hectares": users?.reduce((acc, farm) => {
 
-                                            return acc + Number(farm.area_total_hectares_fazenda);
+                                            return acc + Number(farm?.area_total_hectares_fazenda);
                                         }, 0)
                                     },
                                     backgroundColor: "#2F4F4F",
@@ -101,7 +101,7 @@ const ShowCharts = () => {
                                 {
                                     label: "Estado",
                                     data: Object.values(users?.reduce((acc, user) => {
-                                        acc[user.estado] = (acc[user.estado] || 0) + 1;
+                                        acc[user?.estado] = (acc[user?.estado] || 0) + 1;
 
                                         return acc;
                                     }, {})),
@@ -135,7 +135,7 @@ const ShowCharts = () => {
                 <div className="">
                     <Doughnut
                         data={{
-                            labels: [...new Set(users?.map(item => item.culturas_plantadas).join(',').split(','))],
+                            labels: [...new Set(users?.map(item => item?.culturas_plantadas).join(',').split(','))],
                             datasets: [
                                 {
                                     label: "Quantidade de fazendas por cultura",

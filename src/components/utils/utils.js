@@ -6,7 +6,7 @@ function countKeysAndValues(list, property, object) {
 
         const cultures = item?.[property]?.split(',');
 
-        cultures.forEach(culture => {
+        cultures?.forEach(culture => {
 
             culture = culture.trim();
 
@@ -27,8 +27,8 @@ function sumAreas(data) {
     let totalAreaVegetation = 0;
 
     for (const farm of data) {
-        totalAreaArable += Number(farm.area_agricultavel_hectares);
-        totalAreaVegetation += Number(farm.area_vegetacao_hectares);
+        totalAreaArable += Number(farm?.area_agricultavel_hectares);
+        totalAreaVegetation += Number(farm?.area_vegetacao_hectares);
     }
 
     const totais = {
@@ -44,7 +44,7 @@ function convertToArrayNumbers(valor) {
 
     const numerosEncontrados = produtosString.match(/\d+/g);
 
-    numbers = numerosEncontrados.map(Number);
+    numbers = numerosEncontrados?.map(Number);
 
     return numbers;
 }
